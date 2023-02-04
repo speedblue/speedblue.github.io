@@ -312,16 +312,22 @@ if (speedSeries.length == 2) {
     });
 }
 
-navigationIncrement = 50;
 window.onload = function (){
     eventHandler = function (e) {
         if (currentZoom == null)
             return;
-        if (e.keyCode == 37 && currentZoom[0] > navigationIncrement) {
-            updateAllChartZoom(null, currentZoom[0] - navigationIncrement, currentZoom[1] - navigationIncrement);
+        navigationIncrement = 0.25 * (currentZoom[1] - currentZoom[0]); // Replace 1/4 of the screen
+        if (e.keyCode == 37) {
+            if (currentZoom[0] > navigationIncrement)
+                updateAllChartZoom(null, currentZoom[0] - navigationIncrement, currentZoom[1] - navigationIncrement);
+            else
+                updateAllChartZoom(null, 0, currentZoom[1] - currentZoom[0]);
         }
-        if (e.keyCode == 39 && currentZoom[1] + navigationIncrement < maxDist) {
-            updateAllChartZoom(null, currentZoom[0] + navigationIncrement, currentZoom[1] + navigationIncrement);
+        if (e.keyCode == 39) {
+            if (currentZoom[1] + navigationIncrement < maxDist)
+                updateAllChartZoom(null, currentZoom[0] + navigationIncrement, currentZoom[1] + navigationIncrement);
+            else
+                updateAllChartZoom(null, maxDist - (currentZoom[1] - currentZoom[0]), maxDist)
         }
     }
   window.addEventListener('keydown', eventHandler, false);
