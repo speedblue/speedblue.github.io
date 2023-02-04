@@ -184,7 +184,8 @@ document.addEventListener('DOMContentLoaded', function () {
     speedChart = Highcharts.chart('speed_container', {
         chart: { zoomType: 'x', events: { selection: speedChartSelection} },
         title: { text: 'Speed', align: 'left' },
-        xAxis: { type: 'linear' },
+        tooltip: { shared: true},
+        xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
         yAxis: { title: { text: 'Speed (km/h)' } },
         legend: { enabled: false },
         series: speedSeries
@@ -193,7 +194,8 @@ document.addEventListener('DOMContentLoaded', function () {
     throttleChart = Highcharts.chart('throttle_container', {
     chart: { zoomType: 'x', events: { selection: throttleChartSelection} },
         title: { text: 'Throttle', align: 'left' },
-        xAxis: { type: 'linear' },
+        tooltip: { shared: true},
+        xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
         yAxis: { title: { text: 'Throttle percentage' } },
         legend: { enabled: false },
         series: throttleSeries
@@ -202,7 +204,8 @@ document.addEventListener('DOMContentLoaded', function () {
     swaChart = Highcharts.chart('swa_container', {
         chart: { zoomType: 'x', events: { selection: swaChartSelection}  },
         title: { text: 'Steering Wheel Angle', align: 'left' },
-        xAxis: { type: 'linear' },
+        tooltip: { shared: true},
+        xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
         yAxis: { title: { text: 'Angle' } },
         legend: { enabled: false },
         series: swaSeries
@@ -211,7 +214,8 @@ document.addEventListener('DOMContentLoaded', function () {
     brakeChart = Highcharts.chart('brake_container', {
         chart: { zoomType: 'x', events: { selection: brakeChartSelection} },
         title: { text: 'Brake', align: 'left' },
-        xAxis: { type: 'linear' },
+        tooltip: { shared: true},
+        xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
         yAxis: { title: { text: 'Brake pressure' } },
         legend: { enabled: false },
         series: brakeSeries
@@ -220,7 +224,8 @@ document.addEventListener('DOMContentLoaded', function () {
     gearChart = Highcharts.chart('gear_container', {
         chart: { zoomType: 'x', events: { selection: gearChartSelection} },
         title: { text: 'Gear', align: 'left' },
-        xAxis: { type: 'linear' },
+        tooltip: { shared: true},
+        xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
         yAxis: { title: { text: 'Gear' } },
         legend: { enabled: false },
         series: gearSeries
@@ -267,7 +272,8 @@ if (speedSeries.length == 2) {
         speedDeltaChart = Highcharts.chart('speedDelta_container', {
             chart: { zoomType: 'x', events: { selection: speedDeltaChartSelection} },
             title: { text: 'Speed delta (reference = ' + telemetry.laps[1].name + ')', align: 'left' },
-            xAxis: { type: 'linear' },
+            tooltip: { shared: true},
+            xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
             yAxis: { title: { text: 'Delta (km/h)' } },
             legend: { enabled: false },
             series: [ { name: 'Cumulated Delta', type: 'line', tooltip: { valueDecimals: 0},
@@ -277,7 +283,8 @@ if (speedSeries.length == 2) {
         throttleDeltaChart = Highcharts.chart('throttleDelta_container', {
             chart: { zoomType: 'x', events: { selection: throttleDeltaChartSelection} },
             title: { text: 'Throttle delta (reference = ' + telemetry.laps[1].name + ')', align: 'left' },
-            xAxis: { type: 'linear' },
+            tooltip: { shared: true},
+            xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
             yAxis: { title: { text: 'Delta' } },
             legend: { enabled: false },
             series: [ { name: 'Cumulated Delta', type: 'line', tooltip: { valueDecimals: 0},
@@ -287,7 +294,8 @@ if (speedSeries.length == 2) {
         brakeDeltaChart = Highcharts.chart('brakeDelta_container', {
             chart: { zoomType: 'x', events: { selection: brakeDeltaChartSelection} },
             title: { text: 'Brake delta (reference = ' + telemetry.laps[1].name + ')', align: 'left' },
-            xAxis: { type: 'linear' },
+            tooltip: { shared: true},
+            xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
             yAxis: { title: { text: 'Delta' } },
             legend: { enabled: false },
             series: [ { name: 'Cumulated Delta', type: 'line', tooltip: { valueDecimals: 0},
@@ -297,7 +305,8 @@ if (speedSeries.length == 2) {
         timeDeltaChart = Highcharts.chart('timeDelta_container', {
             chart: { zoomType: 'x', events: { selection: timeDeltaChartSelection} },
             title: { text: 'Time delta (reference = ' + telemetry.laps[1].name + ')', align: 'left' },
-            xAxis: { type: 'linear' },
+            tooltip: { shared: true},
+            xAxis: { type: 'linear', crosshair: { color: 'green', dashStyle: 'solid' }},
             yAxis: { title: { text: 'Delta (second)' } },
             legend: { enabled: false },
             series: [ { name: 'Cumulated Delta', type: 'line', tooltip: { valueDecimals: 0}, data: timeDeltaData } ]
