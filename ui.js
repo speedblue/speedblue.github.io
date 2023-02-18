@@ -544,6 +544,7 @@ function moveSecondLapRight() {
 // Navigation by left/right key in the graphs when zoom is active
 window.onload = function (){
     eventHandler = function (e) {
+	console.log(e.keyCode)
         // Handle graph sync
         if (e.shiftKey && e.keyCode == 37) { // Shift Left
             moveSecondLapLeft();
@@ -570,6 +571,7 @@ window.onload = function (){
             return;
         navigationIncrement = Math.round(0.25 * (currentZoom[1] - currentZoom[0])); // going left/right by 1/4, zooming out by 25%
         if (e.keyCode == 189) { // - key
+	    console.log('Zoom Out')
             left = (currentZoom[0] < (navigationIncrement / 2)) ? 0 : currentZoom[0] - (navigationIncrement / 2);
             right = ((currentZoom[1] + (navigationIncrement / 2)) > maxDist) ? maxDist : currentZoom[1] + (navigationIncrement / 2);
             updateAllChartZoom(null, left, right);
