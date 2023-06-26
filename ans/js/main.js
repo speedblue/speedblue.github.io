@@ -40,7 +40,7 @@ function displayEvents() {
         toDisplay.length = 5
     }
     var content = "";
-    content = '<table class="table table-striped" style="font-size: ' + textSize + 'vw;"><thead><tr><th scope="col">Heure</th><th scope="col">Remaining</th><th>Event</th></tr></thead><tbody>';
+    content = '<table class="table table-striped" style="font-size: ' + textSize + 'vw;"><thead><tr><th scope="col">Time</th><th scope="col">Remaining</th><th>Event</th></tr></thead><tbody>';
     for (var i = 0; i < toDisplay.length; ++i) {
         content += '<tr><td>' + toDisplay[i].time + '</td><td>' + displayTime(toDisplay[i].deltaInS) + "</td>";
         content += '<td>' + toDisplay[i].content + '</td></tr>';
