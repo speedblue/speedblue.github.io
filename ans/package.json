@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "airtable": "^0.11.6",
+    "bootstrap": "^5.2.3",
+    "fitty": "^2.3.7"
+  },
+  "name": "racing-events",
+  "version": "1.0.0",
+  "description": "Visualize events",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/speedblue/speedblue.github.io.git"
+  },
+  "keywords": [
+    "Racing",
+    "Web",
+    "UI"
+  ],
+  "author": "Julien Lemoine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/speedblue/github.speedblue.io/issues"
+  },
+  "homepage": "https://github.com/speedblue/github.speedblue.io#readme"
+}
