@@ -32,9 +32,11 @@ function sameDay(day1, day2) {
 function getHourFormat(date) {
     return (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
 }
-function displayEvents() {
-    console.log("DISPLAY :" + events.length)
+function getHourFormatWithSeconds(date) {
+    return getHourFormat(date) + ':' + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
+}
 
+function displayEvents() {
     document.getElementById('spinner').style.display = 'none'
     var now = new Date();
     var toDisplay = []
@@ -57,14 +59,16 @@ function displayEvents() {
     if (toDisplay.length > 5) {
         toDisplay.length = 5
     }
-    var content = "";
-    content = '<table class="table table-striped" style="font-size: ' + textSize + 'vw; text-align: center;"><thead><tr><th scope="col" style="padding-top: 0;">Time</th><th scope="col" style="padding-top: 0;">Countdown</th><th style="padding-top: 0;">Event</th></tr></thead><tbody>';
-    for (var i = 0; i < toDisplay.length; ++i) {
-        content += '<tr><td>' + toDisplay[i].time + '</td><td>' + displayTime(toDisplay[i].deltaInS) + "</td>";
-        content += '<td>' + toDisplay[i].content + '</td></tr>';
-        //console.log(toDisplay[i].deltaInS + " " + toDisplay[i].content)
+    const date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeStyle: 'long', timeZone: 'Europe/Paris' }).format(new Date())
+    
+    var content = '<div style="color:yellow; font-size:' + (textSize - 1) + 'vw; text-align: center;">' + date + '</div>';
+    if (toDisplay.length > 0) {
+        content += '<div style="color:white;padding-top:5%;font-size:' + (textSize + 2) + 'vw; text-align: center;">' + toDisplay[0].content + '</div>';
+        content += '<div style="color:white;padding-top:1%;padding-bottom:5%;font-size:' + (textSize + 4) + 'vw; text-align: center;">' + displayTime(toDisplay[0].deltaInS) + '</div>';
     }
-    content += '</tbody></table>';
+    for (var i = 1; i < toDisplay.length; ++i) {
+        content += '<div style="color:white;font-size:2vw; text-align: center;">Next: ' + toDisplay[i].content + ' --- ' +  displayTime(toDisplay[i].deltaInS) + '</div>';
+    }
     document.getElementById('content').innerHTML = content
     window.setTimeout(displayEvents,1000); /* recall in 2s */
 }
@@ -94,8 +98,8 @@ function reloadData() {
     firstLoad = false;
   });
 }
-function setLabelActive(name, element) {
-    for (var i = 1; i < 6; ++i) {
+function setLabelActive(name, start, end, element) {
+    for (var i = start; i < (end + 1); ++i) {
         var component = i + name;
         if (i == element)
             document.getElementById(component).className = "dropdown-item active";
@@ -107,44 +111,40 @@ function setLabelActive(name, element) {
 document.addEventListener('DOMContentLoaded', function () {
    base = new Airtable({ apiKey: 'patHSL6ZkPWx8Rkva.f0b8c1970c1cd8b5926d04eaf59d9fd500a39738c73bbb3a471f4f7eb3561ec0' }).base('appiiuioD2YBj4Da6');
    reloadData();
-   document.getElementById('1TConfig').onclick = function() {
-       setLabelActive('TConfig', 1);
-       textSize = 1;
-   }
     document.getElementById('2TConfig').onclick = function() {
-        setLabelActive('TConfig', 2);
+        setLabelActive('TConfig', 2, 5, 2);
         textSize = 2;
     }
     document.getElementById('3TConfig').onclick = function() {
-        setLabelActive('TConfig', 3);
+        setLabelActive('TConfig', 2, 5, 3);
         textSize = 3;
     }
     document.getElementById('4TConfig').onclick = function() {
-        setLabelActive('TConfig', 4);
+        setLabelActive('TConfig', 2, 5, 4);
         textSize = 4;
     }
     document.getElementById('5TConfig').onclick = function() {
-        setLabelActive('TConfig', 5);
+        setLabelActive('TConfig', 2, 5, 5);
         textSize = 5;
     }
     document.getElementById('1DConfig').onclick = function() {
-        setLabelActive('DConfig', 1);
+        setLabelActive('DConfig', 1, 5, 1);
         maxHours = 24;
     }
      document.getElementById('2DConfig').onclick = function() {
-         setLabelActive('DConfig', 2);
+         setLabelActive('DConfig', 1, 5, 2);
          maxHours = 48;
      }
      document.getElementById('3DConfig').onclick = function() {
-         setLabelActive('DConfig', 3);
+         setLabelActive('DConfig', 1, 5, 3);
          maxHours = 72;
      }
      document.getElementById('4DConfig').onclick = function() {
-         setLabelActive('DConfig', 4);
+         setLabelActive('DConfig', 1, 5, 4);
          maxHours = 96;
      }
      document.getElementById('5DConfig').onclick = function() {
-         setLabelActive('DConfig', 5);
+         setLabelActive('DConfig', 1, 5, 5);
          maxHours = 120;
      }
 });
