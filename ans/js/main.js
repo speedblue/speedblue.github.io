@@ -71,7 +71,7 @@ function displayEvents() {
     // Display future events
     for (var i = 0; i < toDisplay.length && toDisplay[i].deltaInS < 0; ++i) {
         ++nbPastEvent;
-        content += '<div style="color:' + toDisplay[i].color + ' ;font-size:2vw; text-align: center;">Previous: ' + toDisplay[i].content + ' --- ' +  toDisplay[i].time + '</div>';
+        content += '<div style="color:' + toDisplay[i].color + ' ;font-size:2vw; text-align: center;">Current: ' + toDisplay[i].content + ' --- ' +  toDisplay[i].time + '</div>';
     }
     
     // Display date of the day
