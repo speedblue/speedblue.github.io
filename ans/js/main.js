@@ -38,19 +38,23 @@ function getHourFormatWithSeconds(date) {
 
 function displayEvents() {
     document.getElementById('spinner').style.display = 'none'
-    var now = new Date();
+    const now = new Date();
+    const nowSec = now.getTime() / 1000; // getTime() is in milliseconds
+    
     var toDisplay = []
     for (var i = 0; i < events.length; ++i) {
         const date = new Date(events[i].date)
-        if (date > now) { // remove past events
-            var delta = Math.floor((date - now) / 1000)
+        const dateSec = date.getTime() / 1000; // getTime is in milliseconds
+        if ((dateSec + events[i].length) > nowSec) { // remove finished events
+            var dateString = ""
+            if (sameDay(date, now))
+                dateString = getHourFormat(date)
+            else
+                dateString = date.getDate() + '/' + (date.getMonth() + 1) + ' ' + getHourFormat(date);
+
+            var delta = Math.floor(dateSec - nowSec)
             if (deltaToHours(delta) < maxHours) { // remove events too much in the future
-                var dateString = ""
-                if (sameDay(date, now))
-                    dateString = getHourFormat(date)
-                else
-                    dateString = date.getDate() + '/' + (date.getMonth() + 1) + ' ' + getHourFormat(date);
-                toDisplay.push({ "deltaInS": delta, "content": events[i].content, "time": dateString})
+               toDisplay.push({ "deltaInS": delta, "content": events[i].content, "time": dateString, "color": events[i].color ? events[i].color : "#FFFFFF"})
             }
         }
     }
@@ -60,26 +64,37 @@ function displayEvents() {
         toDisplay.length = 5
     }
     const date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeStyle: 'long', timeZone: 'Europe/Paris' }).format(new Date())
-    
-    var content = '<div style="color:yellow; font-size:' + (textSize - 1) + 'vw; text-align: center;">' + date + '</div>';
-    if (toDisplay.length > 0) {
-        content += '<div style="color:white;padding-top:5%;font-size:' + (textSize + 2) + 'vw; text-align: center;">' + toDisplay[0].content + '</div>';
-        content += '<div style="color:white;padding-top:1%;padding-bottom:5%;font-size:' + (textSize + 4) + 'vw; text-align: center;">' + displayTime(toDisplay[0].deltaInS) + '</div>';
+
+    var content = '';
+    // Display past events that are still happening
+    var nbPastEvent = 0;
+    // Display future events
+    for (var i = 0; i < toDisplay.length && toDisplay[i].deltaInS < 0; ++i) {
+        ++nbPastEvent;
+        content += '<div style="color:' + toDisplay[i].color + ' ;font-size:2vw; text-align: center;">Previous: ' + toDisplay[i].content + ' --- ' +  toDisplay[i].time + '</div>';
     }
-    for (var i = 1; i < toDisplay.length; ++i) {
-        content += '<div style="color:white;font-size:2vw; text-align: center;">Next: ' + toDisplay[i].content + ' --- ' +  displayTime(toDisplay[i].deltaInS) + '</div>';
+    
+    // Display date of the day
+    content += '<div style="color:yellow; font-size:' + (textSize - 1) + 'vw; text-align: center;">' + date + '</div>';
+    // Display the next main event
+    if (toDisplay.length > nbPastEvent) {
+        content += '<div style="color:' + toDisplay[i].color + ';padding-top:5%;font-size:' + (textSize + 2) + 'vw; text-align: center;">' + toDisplay[nbPastEvent].content + '</div>';
+        content += '<div style="color:'  + toDisplay[i].color + ';padding-top:1%;padding-bottom:5%;font-size:' + (textSize + 4) + 'vw; text-align: center;">' + displayTime(toDisplay[nbPastEvent].deltaInS) + '</div>';
+    }
+    // Display future events
+    for (var i = nbPastEvent + 1; i < toDisplay.length; ++i) {
+        content += '<div style="color:' + toDisplay[i].color + ';font-size:2vw; text-align: center;">Next: ' + toDisplay[i].content + ' --- ' +  displayTime(toDisplay[i].deltaInS) + '</div>';
     }
     document.getElementById('content').innerHTML = content
     window.setTimeout(displayEvents,1000); /* recall in 2s */
 }
 
 function reloadData() {
-  console.log("LOAD DATA")
   newEvents = [];
   base('Main').select({maxRecords: 5000, view: "Grid view"}).eachPage(function page(records, fetchNextPage) {
     // This function (`page`) will get called for each page of records.
     records.forEach(function(record) {
-        newEvents.push({ "date": record.get("Date"), "content": record.get("Content")})
+        newEvents.push({ "date": record.get("Date"), "content": record.get("Content"), "color": record.get("Color"), "length": record.get("Length")})
      });
      // To fetch the next page of records, call `fetchNextPage`.
      // If there are more records, `page` will get called again.
