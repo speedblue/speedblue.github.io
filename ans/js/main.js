@@ -44,7 +44,7 @@ function displayEvents() {
     var toDisplay = []
     for (var i = 0; i < events.length; ++i) {
         const date = new Date(events[i].date)
-        const dateSec = date.getTime() / 1000; // getTime is in milliseconds
+        const dateSec = date.getTime() / 1000 + events[i].hourOffset * 3600; // getTime is in milliseconds, offsetInHours
         if ((dateSec + events[i].length) > nowSec) { // remove finished events
             var dateString = ""
             if (sameDay(date, now))
@@ -93,8 +93,8 @@ function reloadData() {
   newEvents = [];
   base('Main').select({maxRecords: 5000, view: "Grid view"}).eachPage(function page(records, fetchNextPage) {
     // This function (`page`) will get called for each page of records.
-    records.forEach(function(record) {
-        newEvents.push({ "date": record.get("Date"), "content": record.get("Content"), "color": record.get("Color"), "length": record.get("Length")})
+      records.forEach(function(record) {
+          newEvents.push({ "date": record.get("Date"), "hourOffset": record.get("HourOffset"), "content": record.get("Content"), "color": record.get("Color"), "length": record.get("Length")})
      });
      // To fetch the next page of records, call `fetchNextPage`.
      // If there are more records, `page` will get called again.
