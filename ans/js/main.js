@@ -124,7 +124,7 @@ function setLabelActive(name, start, end, element) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-   base = new Airtable({ apiKey: 'patTuBX8tpzXG0svN.e464c6fc4fb08a164fbc1a0992dfea0e69abdb2bf37ba6ff5d472ddc5ca82b36' }).base('appiiuioD2YBj4Da6');
+   base = new Airtable({ apiKey: 'patTuBX8tpzXG0svN.e464c6fc4fb08a164fbc1a0992dfea0e69abdb2bf37ba6ff5d472ddc5ca82b36' }).base('apprpvXXZCozAos3k');
    reloadData();
     document.getElementById('2TConfig').onclick = function() {
         setLabelActive('TConfig', 2, 5, 2);
